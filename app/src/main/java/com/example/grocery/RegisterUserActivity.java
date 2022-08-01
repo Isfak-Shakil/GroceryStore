@@ -156,26 +156,10 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
             }
         }).show();
     }
-    private boolean checkStoragePermission(){
-        boolean result = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED ;
-        return result;
-    }
-    private  void  requestStoragePermission(){
-        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
-    }
-    private boolean checkCameraPermission(){
-        boolean result =ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)==
-                PackageManager.PERMISSION_GRANTED ;
-        boolean result1 =ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED ;
-        return result&&result1;
-    }
-    private  void  requestCameraPermission(){
-        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+    private  void pickFromGallery(){
+        Intent intent=new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
     }
     private void pickFromCamera(){
         ContentValues contentValues=new ContentValues();
@@ -186,20 +170,6 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
         startActivityForResult(intent,IMAGE_PICK_CAMERA_CODE);
-    }
-    private  void pickFromGallery(){
-        Intent intent=new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
-    }
-
-    private  boolean checkLocationPermission(){
-        boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) ==
-                (PackageManager.PERMISSION_GRANTED);
-        return result;
-    }
-    private  void requestLocationPermission(){
-        ActivityCompat.requestPermissions(this,locationPermission,LOCATION_REQUEST_CODE);
     }
 
     private void detectLocation() {
@@ -229,9 +199,38 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
             Toast.makeText(this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
+    private  boolean checkLocationPermission(){
+        boolean result= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+    private  void requestLocationPermission(){
+        ActivityCompat.requestPermissions(this,locationPermission,LOCATION_REQUEST_CODE);
+    }
+    private boolean checkStoragePermission(){
+        boolean result =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED ;
+        return result;
+    }
+    private  void  requestStoragePermission(){
+        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+    }
+    private boolean checkCameraPermission(){
+        boolean result =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)==
+                PackageManager.PERMISSION_GRANTED ;
+        boolean result1 =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED ;
+        return result&&result1;
+    }
+    private  void  requestCameraPermission(){
+        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+    }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
+    public void onLocationChanged(Location location) {
         //Location detected
         latitude=location.getLatitude();
         longitude=location.getLongitude();
@@ -239,20 +238,18 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
 
     }
     @Override
-    public void onLocationChanged(@NonNull List<Location> locations) {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
     @Override
-    public void onProviderEnabled(@NonNull String provider) {
+    public void onProviderEnabled(String provider) {
 
     }
     @Override
-    public void onProviderDisabled(@NonNull String provider) {
+    public void onProviderDisabled(String provider) {
         //gps /location disable
         Toast.makeText(this,"Please turn on location",Toast.LENGTH_SHORT).show();
-
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
@@ -299,8 +296,8 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
             } break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode==RESULT_OK){
@@ -317,5 +314,5 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-   }
+    }
 }

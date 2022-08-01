@@ -317,5 +317,5 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+   }
 }

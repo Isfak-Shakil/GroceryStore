@@ -18,7 +18,8 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainSellerActivity"></activity>
+        <activity android:name=".MainUserActivity"></activity>
+        <activity android:name=".MainSellerActivity" />
         <activity android:name=".RegisterSellerActivity" />
         <activity android:name=".RegisterUserActivity" />
         <activity android:name=".ForgotPasswordActivity" />

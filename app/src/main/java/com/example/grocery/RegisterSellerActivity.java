@@ -286,7 +286,7 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
                         hashMap.put("latitude", "" + latitude);
                         hashMap.put("longitude", "" + longitude);
                         hashMap.put("timestamp", "" + timestamp);
-                        hashMap.put("accountType", "seller");
+                        hashMap.put("accountType", "Seller");
                         hashMap.put("OnLine", "true");
                         hashMap.put("shopOpen", "true");
                         hashMap.put("profileImage", "" + downloadImageUri); //url of upload image
@@ -324,8 +324,6 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
         }
 
     }
-
-
     private void showImagePickDialog() {
         //option to display in dialog
         String[] options = {"Camera", "Gallery"};
@@ -358,13 +356,11 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
             }
         }).show();
     }
-
     private void pickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
-
     private void pickFromCamera() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_image Title");
@@ -375,6 +371,28 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
         intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
     }
+    private boolean checkStoragePermission(){
+        boolean result =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED ;
+        return result;
+    }
+    private  void  requestStoragePermission(){
+        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+    }
+    private boolean checkCameraPermission(){
+        boolean result =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)==
+                PackageManager.PERMISSION_GRANTED ;
+        boolean result1 =ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED ;
+        return result&&result1;
+    }
+    private  void  requestCameraPermission(){
+        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+    }
+
 
     private void detectLocation() {
         Toast.makeText(this, "Please wait.....", Toast.LENGTH_LONG).show();
@@ -421,29 +439,6 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
     private  void requestLocationPermission(){
         ActivityCompat.requestPermissions(this,locationPermission,LOCATION_REQUEST_CODE);
     }
-
-    private boolean checkStoragePermission(){
-        boolean result =ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED ;
-        return result;
-    }
-    private  void  requestStoragePermission(){
-        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
-    }
-    private boolean checkCameraPermission(){
-        boolean result =ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)==
-                PackageManager.PERMISSION_GRANTED ;
-        boolean result1 =ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED ;
-        return result&&result1;
-    }
-    private  void  requestCameraPermission(){
-        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
-    }
-
     @Override
     public void onLocationChanged(Location location) {
         //Location detected

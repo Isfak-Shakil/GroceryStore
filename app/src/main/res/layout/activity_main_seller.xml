@@ -12,21 +12,13 @@
         android:layout_height="80dp"
         android:background="@drawable/shape_rect01"
         android:padding="10dp">
-        <ImageButton
-            android:id="@+id/back_btn_Id"
-            android:background="@null"
-            android:src="@drawable/ic_back_white"
-            android:layout_width="30dp"
-            android:layout_height="30dp"/>
 
         <TextView
             android:id="@+id/nameTv_Id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="Name"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
             android:textStyle="bold" />
         <ImageButton
             android:id="@+id/logOutBtn_Id"
@@ -42,6 +34,14 @@
             android:layout_toStartOf="@id/logOutBtn_Id"
             android:layout_width="30dp"
             android:layout_height="30dp"/>
+        <ImageButton
+            android:id="@+id/addProduct_btn_Id"
+            android:background="@null"
+            android:src="@drawable/ic_add_shopping_white"
+            android:layout_toStartOf="@id/edit_Profile_btn_Id"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

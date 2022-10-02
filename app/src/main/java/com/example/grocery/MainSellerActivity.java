@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +21,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class MainSellerActivity extends AppCompatActivity {
-    private TextView nameTv;
-    private ImageButton logOutBtn,editProfileBtn;
+    private TextView nameTv,shopNameTv,emailTv;
+    private ImageButton logOutBtn,editProfileBtn,addProductBtn;
+    private ImageView profileIv;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
 
@@ -34,6 +37,10 @@ public class MainSellerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_seller);
         nameTv=findViewById(R.id.nameTv_Id);
+        shopNameTv=findViewById(R.id.shopNameTv);
+        emailTv=findViewById(R.id.emailTv);
+        profileIv=findViewById(R.id.profileIv);
+        addProductBtn=findViewById(R.id.addProduct_btn_Id);
         logOutBtn=findViewById(R.id.logOutBtn_Id);
         editProfileBtn=findViewById(R.id.edit_Profile_btn_Id);
 
@@ -57,6 +64,14 @@ public class MainSellerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // edit profile activity
                 startActivity(new Intent(MainSellerActivity.this,ProfileEditSellerActivity.class));
+            }
+        });
+
+        addProductBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ad Product activity
+                startActivity(new Intent(MainSellerActivity.this,AddProductActivity.class));
             }
         });
 
@@ -105,10 +120,22 @@ public class MainSellerActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds:snapshot.getChildren())
                         {
+                            // get data from db
                             String name=""+ds.child("name").getValue();
                             String accountType=""+ds.child("accountType").getValue();
+                            String shopName=""+ds.child("shopName").getValue();
+                            String email=""+ds.child("emial").getValue();
+                            String profileImage=""+ds.child("profilImage").getValue();
 
+                            // set data to ui
                             nameTv.setText(name);
+                            emailTv.setText(email);
+                            shopNameTv.setText(shopName);
+                            try {
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_gray).into(profileIv);
+                            }catch (Exception e){
+                                profileIv.setImageResource(R.drawable.ic_store_gray);
+                            }
                         }
 
                     }

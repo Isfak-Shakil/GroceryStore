@@ -18,13 +18,16 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ProfileEditSellerActivity"></activity>
+        <activity
+            android:name=".AddProductActivity"
+            android:exported="false" />
+        <activity android:name=".ProfileEditSellerActivity" />
         <activity android:name=".ProfileEditUserActivity" />
         <activity android:name=".MainUserActivity" />
         <activity android:name=".MainSellerActivity" />
         <activity android:name=".RegisterSellerActivity" />
         <activity android:name=".RegisterUserActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".Constants$ForgotPasswordActivity" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".SplashActivity"
